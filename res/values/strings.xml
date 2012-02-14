@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, FeedReaderActivity!</string>
+
+	<!--  Global -->	
     <string name="app_name">Feed Reader</string>
+	<string name="updir_label">View latest feeds</string>
+
+	<!-- Latest View -->
+    <string name="latest_title">Latest articles</string>
+    
+	<!-- Feeds View -->
+    
+	<!-- Article View -->
+	
+		<!-- item view item -->
+		
+		<!-- seeall view item -->
+		<string name="seemore_label">See more from </string>
+    
 </resources>

@@ -13,11 +13,33 @@ public final class R {
     public static final class drawable {
         public static final int icon=0x7f020000;
     }
+    public static final class id {
+        public static final int date=0x7f050002;
+        public static final int newAmount=0x7f050003;
+        public static final int title=0x7f050000;
+        public static final int webview=0x7f050001;
+    }
     public static final class layout {
-        public static final int main=0x7f030000;
+        public static final int article=0x7f030000;
+        public static final int feeds=0x7f030001;
+        public static final int item=0x7f030002;
+        public static final int latest=0x7f030003;
+        public static final int seeall=0x7f030004;
+        public static final int subheading=0x7f030005;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int hello=0x7f040000;
+        /**   Global 
+         */
+        public static final int app_name=0x7f040000;
+        /**  Latest View 
+         */
+        public static final int latest_title=0x7f040002;
+        /**  Feeds View 
+ Article View 
+ item view item 
+ seeall view item 
+         */
+        public static final int seemore_label=0x7f040003;
+        public static final int updir_label=0x7f040001;
     }
 }
