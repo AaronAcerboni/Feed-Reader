@@ -8,15 +8,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	
 	private static final int DATABASE_VERSION = 2;
 
+	private static final String MAKE_APP_SETTINGS_TABLE = "CREATE TABLE settings " +
+														  "(firstRun INTEGER)";
+	
 	private static final String MAKE_PUBLISHER_TABLE = "CREATE TABLE Publishers " +
 													   "(pubName TEXT, url TEXT)";
+	
 	private static final String MAKE_FEEDS_TABLE = "CREATE TABLE Publishers (" +
 												   "pubName TEXT, " +
 												   "title TEXT, " +
-												   "date Date, " +
+												   "date TEXT, " +
 												   "url TEXT, " +
 												   "content TEXT, " +
-												   "hasRead BOOLEAN)";
+												   "hasRead INTEGER)";
 
 	public DatabaseHelper(Context context, String name) {
 		super(context, name, null, DATABASE_VERSION);

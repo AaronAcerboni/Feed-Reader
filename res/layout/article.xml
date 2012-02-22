@@ -30,8 +30,6 @@
 	  
     
     <!-- h1 for title, url link to page, date and content -->
-    <WebView 
-    	android:id="@+id/webview"
-    />
+    <WebView android:id="@+id/webview"/>
     
 </LinearLayout>
