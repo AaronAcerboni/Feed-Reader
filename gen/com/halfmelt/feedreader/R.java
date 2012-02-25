@@ -15,9 +15,10 @@ public final class R {
     }
     public static final class id {
         public static final int date=0x7f060002;
-        public static final int menuItemAdd=0x7f060005;
-        public static final int menuItemRemove=0x7f060006;
-        public static final int menuItemSettings=0x7f060004;
+        public static final int menuItemAdd=0x7f060004;
+        public static final int menuItemRefresh=0x7f060006;
+        public static final int menuItemRemove=0x7f060005;
+        public static final int menuItemSettings=0x7f060007;
         public static final int newAmount=0x7f060003;
         public static final int title=0x7f060000;
         public static final int webview=0x7f060001;
