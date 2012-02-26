@@ -60,7 +60,7 @@ public class LatestMenuActivity extends Activity {
     }
     
     private void touch_settings() {
-		
+    	
 	}
 
 	private void touch_removeFeed() {
@@ -76,6 +76,7 @@ public class LatestMenuActivity extends Activity {
 		new Thread(new Runnable() {
 			public void run() {
 				final String feed = FeedGetter.get("http://planetjs.tumblr.com/rss");
+				persistance.populateDummyData();
 				ref.runOnUiThread(new Runnable(){
 					public void run(){
 						// TODO something happens back on the gui
