@@ -75,14 +75,15 @@ public class LatestMenuActivity extends Activity {
 	}
 	
     private void touch_refresh(){
-		final Activity ref = this;
+		final Activity gui = this;
 		new Thread(new Runnable() {
 			public void run() {
-				final String feed = FeedGetter.get("http://planetjs.tumblr.com/rss");
+				final String feed = FeedGetter.get("planetjs.tumblr.com/rss");
+				Log.d("blah", feed);
 				if(!persistance.populateDummyData()){
 					Log.d("Warning!!!!!!", "That pubName was already set in the database!");
 				}
-				ref.runOnUiThread(new Runnable(){
+				gui.runOnUiThread(new Runnable(){
 					public void run(){
 						// TODO something happens back on the GUI
 					}

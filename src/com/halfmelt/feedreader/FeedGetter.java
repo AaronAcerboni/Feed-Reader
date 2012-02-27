@@ -20,7 +20,11 @@ public class FeedGetter {
 	 * android-http-services/example-of-http-get-request-using-httpclient-in-android/
 	 */
 	
-	public static String get(String url) {
+	public static String get(String unknownUrl) {
+		String url = unknownUrl;
+		if(url.indexOf("http://") == -1){
+			url = "http://" + url;
+		}
 		HttpGet get = new HttpGet(url);
 		String feed = "Feed not set";
 		try {
