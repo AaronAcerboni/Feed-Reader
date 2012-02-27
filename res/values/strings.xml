@@ -8,6 +8,15 @@
 	<!-- Latest View -->
     <string name="latest_title">Latest articles</string>
     
+	<!-- Add Publisher View -->
+    <string name="set_publisher_url_label">Publisher URL</string>
+    <string name="set_publisher_url_hint">example.com/rss</string>
+    <string name="info_publisher_url_label">The URL which points to the publishers feed</string>
+    <string name="set_publisher_name_label">Publisher Name</string>
+    <string name="set_publisher_name_hint">Example News</string>
+    <string name="info_publisher_name_label">A name you wish to identify the publisher by</string>
+    <string name="set_publisher_button">Add publisher</string>
+    
 	<!-- Feeds View -->
     
 	<!-- Article View -->

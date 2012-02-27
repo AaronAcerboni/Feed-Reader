@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
@@ -45,16 +46,32 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		
 	}
 	
-	// TODO catch duplicate pubName entry
-	public boolean populateDummyData() throws  {
-		String dummySql1 = "INSERT INTO publishers (pubName, url) VALUES ('planet.js', 'http://planetjs.tumblr.com')";
+	public boolean populateDummyData()  {
+		String dummySql1 = "INSERT INTO publishers VALUES ('planet.js', 'http://planetjs.tumblr.com')";
 		String dummySql2 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Sun Feb 26 2012 19:25:10', " +
 						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
 		SQLiteDatabase db = getWritableDatabase();
-		db.execSQL(dummySql1);
-		db.execSQL(dummySql2);
-		db.close();
+		try{
+			db.execSQL(dummySql1);
+			db.execSQL(dummySql2);
+			db.close();
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
 		return true;
+	}
+	
+	public boolean addPublisher(String pubName, String pubUrl){
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			db.execSQL("INSERT INTO publishers VALUES ('" + pubName + "', '" + pubUrl + "')");
+			db.close();
+			return true;
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
 	}
 	
 	public ArrayList<String> getPublishers() {
@@ -73,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return this;
 	}
 	
+	@SuppressWarnings("unused")
 	private int stringDateToInt(String date) {
 		return 0;
 	}

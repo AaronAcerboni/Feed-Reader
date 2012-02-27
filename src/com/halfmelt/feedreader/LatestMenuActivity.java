@@ -1,6 +1,7 @@
 package com.halfmelt.feedreader;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,7 +10,7 @@ import android.view.MenuItem;
 
 public class LatestMenuActivity extends Activity {
 	
-	public static DatabaseHelper persistance;
+	private DatabaseHelper persistance;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,8 @@ public class LatestMenuActivity extends Activity {
     }
     
     // Build the view based on feed items
-    private void buildContentView() {
+    @SuppressWarnings("unused")
+	private void buildContentView() {
     	
     }
     
@@ -68,7 +70,8 @@ public class LatestMenuActivity extends Activity {
 	}
 
 	private void touch_addFeed() {
-		
+    	Intent i = new Intent(this, AddPublisherActivity.class);
+    	startActivity(i);
 	}
 	
     private void touch_refresh(){
@@ -76,14 +79,16 @@ public class LatestMenuActivity extends Activity {
 		new Thread(new Runnable() {
 			public void run() {
 				final String feed = FeedGetter.get("http://planetjs.tumblr.com/rss");
-				persistance.populateDummyData();
+				if(!persistance.populateDummyData()){
+					Log.d("Warning!!!!!!", "That pubName was already set in the database!");
+				}
 				ref.runOnUiThread(new Runnable(){
 					public void run(){
-						// TODO something happens back on the gui
+						// TODO something happens back on the GUI
 					}
 				});
 			}
-		}).start();
+		}).start(); 
     }
     
 }
