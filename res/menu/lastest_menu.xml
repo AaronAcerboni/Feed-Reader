@@ -3,8 +3,8 @@
     <group>
 	    <item android:id="@+id/menuItemAdd"
 	          android:title="Add publisher"/>
-        <item android:id="@+id/menuItemRemove"
-              android:title="Remove publishers"/>
+        <item android:id="@+id/menuItemEdit"
+              android:title="Edit publishers"/>
     </group>
     <item android:id="@+id/menuItemRefresh"
           android:title="Refresh"/>

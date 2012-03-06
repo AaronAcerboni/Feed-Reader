@@ -14,8 +14,6 @@ public class FeedGetter {
 	
 	private static HttpClient client = new DefaultHttpClient();
 
-	public FeedGetter(){}
-	
 	/* w3mentor.com/learn/java/android-development/
 	 * android-http-services/example-of-http-get-request-using-httpclient-in-android/
 	 */

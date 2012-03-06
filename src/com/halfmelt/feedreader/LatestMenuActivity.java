@@ -1,5 +1,7 @@
 package com.halfmelt.feedreader;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +31,7 @@ public class LatestMenuActivity extends Activity {
     }
     
     // Build the view based on feed items
-    @SuppressWarnings("unused")
-	private void buildContentView() {
+    private void buildContentView() {
     	
     }
     
@@ -48,10 +49,10 @@ public class LatestMenuActivity extends Activity {
     			touch_refresh();
     			return true;
     		case R.id.menuItemAdd:
-    			touch_addFeed();
+    			touch_addPublisher();
     			return true;
-    		case R.id.menuItemRemove:
-    			touch_removeFeed();
+    		case R.id.menuItemEdit:
+    			touch_editPublishers();
     			return true;
     		case R.id.menuItemSettings:
     			touch_settings();
@@ -62,14 +63,16 @@ public class LatestMenuActivity extends Activity {
     }
     
     private void touch_settings() {
-    	
+    	Intent i = new Intent(this, PreferencesActivity.class);
+    	startActivity(i);
 	}
 
-	private void touch_removeFeed() {
-		
+	private void touch_editPublishers() {
+    	Intent i = new Intent(this, EditPublishersActivity.class);
+    	startActivity(i);
 	}
 
-	private void touch_addFeed() {
+	private void touch_addPublisher() {
     	Intent i = new Intent(this, AddPublisherActivity.class);
     	startActivity(i);
 	}

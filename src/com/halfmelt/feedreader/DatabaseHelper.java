@@ -3,9 +3,11 @@ package com.halfmelt.feedreader;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 	
@@ -62,7 +64,40 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return true;
 	}
 	
-	public boolean addPublisher(String pubName, String pubUrl){
+	public ArrayList<String> getPublishers() {
+		ArrayList<String> publishers = new ArrayList<String>();
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor c = db.rawQuery("SELECT pubName From publishers", null);
+		
+		int i = 0;
+		c.moveToFirst();
+		while(i < c.getCount()){
+			publishers.add(c.getString(0));
+			c.moveToNext();
+			i++;
+		}
+		db.close();
+		
+		return publishers;
+	}
+	
+	public DatabaseHelper getFeeds(String pubName) {
+		return getFeeds(pubName, "date", 3);
+	}
+	public DatabaseHelper getFeeds(String pubName, String by, int upto) {
+		SQLiteDatabase db = getReadableDatabase();
+		db.close();
+		return this;
+	}
+	
+	public DatabaseHelper getFeed(String pubName, String date, String title) {
+		return this;
+	}
+	
+
+	
+	public boolean addPublisher(String pubName, String pubUrl) {
 		SQLiteDatabase db = getWritableDatabase();
 		try{
 			db.execSQL("INSERT INTO publishers VALUES ('" + pubName + "', '" + pubUrl + "')");
@@ -74,24 +109,63 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		}
 	}
 	
-	public ArrayList<String> getPublishers() {
-		SQLiteDatabase db = getReadableDatabase();
-		db.close();
-		return new ArrayList<String>();
+	public boolean removePublisher(String pubName) {
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			db.execSQL("DELETE FROM publishers WHERE pubName='" + pubName +"'");
+			db.execSQL("DELETE FROM feeds WHERE pubName='" + pubName +"'");
+			db.close();
+			return true;
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
+	}
+
+	public boolean removeAll() {
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			db.execSQL("DELETE FROM publishers");
+			db.execSQL("DELETE FROM feeds");
+			db.close();
+			return true;
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
+	}
+
+	public boolean removeAllFeeds() {
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			db.execSQL("DELETE FROM feeds");
+			db.close();
+			return true;
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
 	}
 	
-	public DatabaseHelper getFeeds(String pubName) {
-		return getFeeds(pubName, "date", 3);
+	public boolean resetAppData() {
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			db.execSQL("DELETE FROM publishers");
+			db.execSQL("DELETE FROM feeds");
+			db.execSQL("DELETE FROM settings");
+			db.close();
+			return true;
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
 	}
 	
-	public DatabaseHelper getFeeds(String pubName, String by, int upto) {
-		SQLiteDatabase db = getReadableDatabase();
-		db.close();
-		return this;
-	}
-	
-	@SuppressWarnings("unused")
 	private int stringDateToInt(String date) {
 		return 0;
+	}
+	
+	private String intDateToString(int date) {
+		return "";
 	}
 }

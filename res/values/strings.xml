@@ -4,9 +4,20 @@
 	<!--  Global -->	
     <string name="app_name">Feed Reader</string>
 	<string name="updir_label">View latest feeds</string>
+    <string name="confirm">OK</string>
+    <string name="deny">No</string>
 
 	<!-- Latest View -->
     <string name="latest_title">Latest articles</string>
+    
+	<!-- Preferences View -->
+    <string name="remove_cache_dialog">Are you sure you want to remove all feed items?</string>
+    <string name="item_clear">Clear cache</string>
+    <string name="item_clear_description">Remove all collected feed items</string>
+    <string name="item_clear_toast">Cache cleared</string>
+    <string name="item_about">About</string>
+    <string name="item_about_description">Details about version and author</string>
+    <string name="item_about_content">Version 0.1 - Made by Aaron Acerboni as a University of Brighton project</string>
     
 	<!-- Add Publisher View -->
     <string name="set_publisher_url_label">Publisher URL</string>
@@ -17,6 +28,12 @@
     <string name="info_publisher_name_label">A name you wish to identify the publisher by</string>
     <string name="set_publisher_button">Add publisher</string>
     
+    <!-- Edit Publisher View -->
+    <string name="remove_publisher_warning">Removing a publisher will remove all associated feeds.</string>
+    <string name="no_publishers_found_label">No publishers are added.</string>
+    <string name="no_checked_publishers_toast">You didn\'t check any publishers.</string>
+    <string name="removed_publishers_toast">Removed.</string>    
+    <string name="remove_publishers_dialog">Are you sure you want to remove checked publishers?</string>    
 	<!-- Feeds View -->
     
 	<!-- Article View -->

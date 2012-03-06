@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    
+        <Preference
+                android:title="@string/item_clear"
+                android:summary="@string/item_clear_description"
+                android:key="clearCache" />
+        
+        <Preference
+                android:title="@string/item_about"
+                android:summary="@string/item_about_description"
+                android:key="about" />
+        
+</PreferenceScreen>
