@@ -1,6 +1,10 @@
 package com.halfmelt.feedreader;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -48,21 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		
 	}
 	
-	public boolean populateDummyData()  {
-		String dummySql1 = "INSERT INTO publishers VALUES ('planet.js', 'http://planetjs.tumblr.com')";
-		String dummySql2 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Sun Feb 26 2012 19:25:10', " +
-						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
-		SQLiteDatabase db = getWritableDatabase();
-		try{
-			db.execSQL(dummySql1);
-			db.execSQL(dummySql2);
-			db.close();
-		} catch (SQLiteException e){
-			db.close();
-			return false;
-		}
-		return true;
-	}
+	
+	// Database getters
 	
 	public ArrayList<String> getPublishers() {
 		ArrayList<String> publishers = new ArrayList<String>();
@@ -83,10 +74,29 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	}
 	
 	public DatabaseHelper getFeeds(String pubName) {
-		return getFeeds(pubName, "date", 3);
+		return getFeeds(pubName, "date");
 	}
+	
+	public DatabaseHelper getFeeds(String pubName, String by) {
+		SQLiteDatabase db = getReadableDatabase();
+		
+		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "'" +
+					 "ORDER BY date";
+		
+		db.execSQL(sql);
+		
+		db.close();
+		return this;
+	}
+	
 	public DatabaseHelper getFeeds(String pubName, String by, int upto) {
 		SQLiteDatabase db = getReadableDatabase();
+		
+		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "' ORDER BY '" +
+					 by + "' LIMIT 0," + upto;
+		
+		db.execSQL(sql);
+		
 		db.close();
 		return this;
 	}
@@ -95,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return this;
 	}
 	
+	// Database setters
 
 	
 	public boolean addPublisher(String pubName, String pubUrl) {
@@ -161,11 +172,45 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		}
 	}
 	
-	private int stringDateToInt(String date) {
-		return 0;
+
+	public boolean populateDummyData()  {
+		String dummySql1 = "INSERT INTO publishers VALUES ('planet.js', 'http://planetjs.tumblr.com')";
+		String dummySql2 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Sun Feb 26 2012 19:25:10', " +
+						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
+		String dummySql3 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Sat Feb 25 2012 15:25:10', " +
+						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
+		String dummySql4 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Fri Feb 24 2012 11:25:10', " +
+						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			db.execSQL(dummySql1);
+			db.execSQL(dummySql2);
+			db.execSQL(dummySql3);
+			db.execSQL(dummySql4);
+			db.close();
+		} catch (SQLiteException e){
+			db.close();	
+			return false;
+		}
+		return true;
 	}
 	
-	private String intDateToString(int date) {
-		return "";
+	// RFC822 compliant date
+	
+	private long stringDateToInt(String strdate) {
+	   SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+	   Date date = null;
+	   try {
+		   date = formatter.parse(strdate);
+	   } catch (ParseException e) {
+		   e.printStackTrace();
+	   }
+	   return date.getTime();
+	}
+	
+	private String longDateToString(long milli) {
+		Date date = new Date(milli);
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+		return formatter.format(date);
 	}
 }

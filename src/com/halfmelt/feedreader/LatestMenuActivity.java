@@ -32,7 +32,17 @@ public class LatestMenuActivity extends Activity {
     
     // Build the view based on feed items
     private void buildContentView() {
+    	// for each publisher
+    		// get top latest feeds up to 3
+    			// add click listener
+    			// add long press listener (view, mark as read, remove)
+    			// make them bold if unread
+    	ArrayList<String> publishers = persistance.getPublishers();
+    	int pubSize = publishers.size();
     	
+    	for(int i = 0; i < pubSize; i++){
+    		ArrayList<String> feeds = persistance.getFeeds(publishers.get(i), "date", 3);
+    	}
     }
     
     @Override
