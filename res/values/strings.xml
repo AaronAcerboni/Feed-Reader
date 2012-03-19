@@ -6,9 +6,6 @@
 	<string name="updir_label">View latest feeds</string>
     <string name="confirm">OK</string>
     <string name="deny">No</string>
-
-	<!-- Latest View -->
-    <string name="latest_title">Latest articles</string>
     
 	<!-- Preferences View -->
     <string name="remove_cache_dialog">Are you sure you want to remove all feed items?</string>

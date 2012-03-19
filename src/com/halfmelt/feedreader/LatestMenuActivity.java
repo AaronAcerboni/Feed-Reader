@@ -3,12 +3,19 @@ package com.halfmelt.feedreader;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class LatestMenuActivity extends Activity {
 	
@@ -27,22 +34,56 @@ public class LatestMenuActivity extends Activity {
 
     public void onStart() {
         setContentView(R.layout.latest);
+        buildContentView();
     	super.onStart();
+    }
+
+    public void onResume() {
+        buildContentView();
+        super.onResume();
     }
     
     // Build the view based on feed items
     private void buildContentView() {
-    	// for each publisher
-    		// get top latest feeds up to 3
-    			// add click listener
-    			// add long press listener (view, mark as read, remove)
-    			// make them bold if unread
-    	ArrayList<String> publishers = persistance.getPublishers();
-    	int pubSize = publishers.size();
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    	LinearLayout ll = (LinearLayout) findViewById(R.id.main);
     	
-    	for(int i = 0; i < pubSize; i++){
-    		ArrayList<String> feeds = persistance.getFeeds(publishers.get(i), "date", 3);
-    	}
+    	ArrayList<String> publishers = persistance.getPublishers();
+ 
+    	for(int i = 0; i < publishers.size(); i++){
+    		
+    		// Draw publisher
+    		
+    		View heading = (LinearLayout) inflater.inflate(R.layout.subheading, null);
+    		TextView title = (TextView) heading.findViewById(R.id.title);
+    		TextView unread = (TextView) heading.findViewById(R.id.newAmount);
+
+    		title.setText(publishers.get(i));
+        	ll.addView(heading);
+        	
+        	// Draw publisher feeds
+        	
+        	Cursor feeds = persistance.getFeeds(publishers.get(i), "date", 2);
+        	feeds.moveToFirst();
+        	int n = 0;
+        	while(n < feeds.getCount()){
+        		String feedTitle = feeds.getString(feeds.getColumnIndex("title"));
+        		String feedDate = feeds.getString(feeds.getColumnIndex("title"));
+        		int feedHasRead = feeds.getInt(feeds.getColumnIndex("title"));
+        		
+        		View feedHeading = inflater.inflate(R.layout.feeditem, null);
+        		((TextView)feedHeading.findViewById(R.id.title)).setText(feedTitle);
+        		((TextView)feedHeading.findViewById(R.id.date)).setText(feedDate);
+        		if(feedHasRead == 1){
+            		((TextView)feedHeading.findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
+        		}
+        		
+        		ll.addView(feedHeading);
+        		feeds.moveToNext();
+        		n++;
+        	}
+        	
+    	} // end publisher loop
     }
     
     @Override
@@ -98,7 +139,7 @@ public class LatestMenuActivity extends Activity {
 				}
 				gui.runOnUiThread(new Runnable(){
 					public void run(){
-						// TODO something happens back on the GUI
+						buildContentView();
 					}
 				});
 			}

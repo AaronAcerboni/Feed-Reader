@@ -52,6 +52,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		
 	}
 	
+	public void close(SQLiteDatabase db) {
+		db.close();
+	}
 	
 	// Database getters
 	
@@ -68,41 +71,40 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			c.moveToNext();
 			i++;
 		}
-		db.close();
 		
 		return publishers;
 	}
 	
-	public DatabaseHelper getFeeds(String pubName) {
+	public Cursor getFeeds(String pubName) {
 		return getFeeds(pubName, "date");
 	}
 	
-	public DatabaseHelper getFeeds(String pubName, String by) {
+	public Cursor getFeeds(String pubName, String by) {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "'" +
 					 "ORDER BY date";
 		
-		db.execSQL(sql);
-		
-		db.close();
-		return this;
+		return db.rawQuery(sql, null);
 	}
 	
-	public DatabaseHelper getFeeds(String pubName, String by, int upto) {
+	public Cursor getFeeds(String pubName, String by, int upto) {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "' ORDER BY '" +
 					 by + "' LIMIT 0," + upto;
 		
-		db.execSQL(sql);
-		
-		db.close();
-		return this;
+		return db.rawQuery(sql, null);
 	}
 	
-	public DatabaseHelper getFeed(String pubName, String date, String title) {
-		return this;
+	public Cursor getFeed(String pubName, String date, String title) {
+		SQLiteDatabase db = getReadableDatabase();
+		
+		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "'" +
+										      "AND date = '" + date + "'" +
+										      "AND title = '" + title + "'";
+		
+		return db.rawQuery(sql, null);
 	}
 	
 	// Database setters
@@ -175,11 +177,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 	public boolean populateDummyData()  {
 		String dummySql1 = "INSERT INTO publishers VALUES ('planet.js', 'http://planetjs.tumblr.com')";
-		String dummySql2 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Sun Feb 26 2012 19:25:10', " +
+		String dummySql2 = "INSERT INTO feeds VALUES ('planet.js', 'alpha', 'Sun Feb 26 2012 19:25:10', " +
 						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
-		String dummySql3 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Sat Feb 25 2012 15:25:10', " +
+		String dummySql3 = "INSERT INTO feeds VALUES ('planet.js', 'beta', 'Sat Feb 25 2012 15:25:10', " +
 						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
-		String dummySql4 = "INSERT INTO feeds VALUES ('planet.js', 'cool title', 'Fri Feb 24 2012 11:25:10', " +
+		String dummySql4 = "INSERT INTO feeds VALUES ('planet.js', 'zeta', 'Fri Feb 24 2012 11:25:10', " +
 						   "'http://planetjs.tumblr.com/post/16356254895', '<h1>plswerk</h1><b>;-;</b>', 0)";
 		SQLiteDatabase db = getWritableDatabase();
 		try{

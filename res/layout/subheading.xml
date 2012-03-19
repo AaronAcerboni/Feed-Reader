@@ -8,14 +8,21 @@
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content" 
 		    android:id="@+id/title"
-		    android:text="title not set"
+		    android:text="title must be set programmatically"
 		    />
 	    
 	    <TextView  
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content" 
 		    android:id="@+id/newAmount"
-		    android:text=""
+		    android:text="newAmount must be set programmatically"
+		    />
+	    
+	    <TextView  
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content" 
+		    android:id="@+id/date"
+		    android:text="date must be set programmatically"
 		    />
 			    
 	</LinearLayout>
