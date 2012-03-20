@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
@@ -75,26 +76,38 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return publishers;
 	}
 	
-	public Cursor getFeeds(String pubName) {
+	public HashMap<String, Object> getFeeds(String pubName) {
 		return getFeeds(pubName, "date");
 	}
 	
-	public Cursor getFeeds(String pubName, String by) {
+	public HashMap<String, Object> getFeeds(String pubName, String by) {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "'" +
 					 "ORDER BY date";
 		
-		return db.rawQuery(sql, null);
+		Cursor c = db.rawQuery(sql, null);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("connection", db);
+		map.put("cursor", c);
+		
+		return map;
 	}
 	
-	public Cursor getFeeds(String pubName, String by, int upto) {
+	public HashMap getFeeds(String pubName, String by, int upto) {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "' ORDER BY '" +
 					 by + "' LIMIT 0," + upto;
+
+		Cursor c = db.rawQuery(sql, null);
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		return db.rawQuery(sql, null);
+		map.put("connection", db);
+		map.put("cursor", c);
+		
+		return map;
 	}
 	
 	public Cursor getFeed(String pubName, String date, String title) {

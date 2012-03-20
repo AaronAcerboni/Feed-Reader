@@ -1,11 +1,13 @@
 package com.halfmelt.feedreader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +29,7 @@ public class LatestMenuActivity extends Activity {
         if(persistance.firstRun){
         	
         } else {
-        	
+
         }
         super.onCreate(savedInstanceState);
     }
@@ -45,8 +47,14 @@ public class LatestMenuActivity extends Activity {
     
     // Build the view based on feed items
     private void buildContentView() {
-		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	LinearLayout ll = (LinearLayout) findViewById(R.id.main);
+    	
+    	// Remove any previous drawn views
+    	ll.removeAllViews();
+    	
+    	// Draw views
+    	
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	
     	ArrayList<String> publishers = persistance.getPublishers();
  
@@ -59,29 +67,34 @@ public class LatestMenuActivity extends Activity {
     		TextView unread = (TextView) heading.findViewById(R.id.newAmount);
 
     		title.setText(publishers.get(i));
+    		unread.setText("50");
         	ll.addView(heading);
         	
         	// Draw publisher feeds
         	
-        	Cursor feeds = persistance.getFeeds(publishers.get(i), "date", 2);
+        	HashMap<String, Object> map = (HashMap<String, Object>) persistance.getFeeds(publishers.get(i), "date", 2);
+        	Cursor feeds = (Cursor) map.get("cursor");
         	feeds.moveToFirst();
+        	
         	int n = 0;
         	while(n < feeds.getCount()){
         		String feedTitle = feeds.getString(feeds.getColumnIndex("title"));
-        		String feedDate = feeds.getString(feeds.getColumnIndex("title"));
-        		int feedHasRead = feeds.getInt(feeds.getColumnIndex("title"));
+        		String feedDate = feeds.getString(feeds.getColumnIndex("date"));
+        		int feedHasRead = feeds.getInt(feeds.getColumnIndex("hasRead"));
         		
         		View feedHeading = inflater.inflate(R.layout.feeditem, null);
         		((TextView)feedHeading.findViewById(R.id.title)).setText(feedTitle);
         		((TextView)feedHeading.findViewById(R.id.date)).setText(feedDate);
-        		if(feedHasRead == 1){
+        		if(feedHasRead == 0){
             		((TextView)feedHeading.findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
         		}
-        		
+        		Log.d("here", feedTitle);
         		ll.addView(feedHeading);
         		feeds.moveToNext();
         		n++;
         	}
+
+        	persistance.close((SQLiteDatabase) map.get("connection"));
         	
     	} // end publisher loop
     }
@@ -97,7 +110,8 @@ public class LatestMenuActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()){
     		case R.id.menuItemRefresh:
-    			touch_refresh();
+				new Reader();
+    			//touch_refresh();
     			return true;
     		case R.id.menuItemAdd:
     			touch_addPublisher();
