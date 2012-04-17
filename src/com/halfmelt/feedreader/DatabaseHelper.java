@@ -147,6 +147,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			return false;
 		}
 	}
+	
+	public boolean addFeed(String pubName, String title, String date, String url, String content, int hasRead) {
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			String sql = "INSERT INTO feeds VALUES(" +
+						 "'" + pubName + "', " + 
+						 "'" + title + "', " + 
+						 "'" + date + "', " + 
+						 "'" + url + "', " + 
+						 "'" + content + "', " + 
+						 "'" + hasRead + "')";
+			db.execSQL(sql);
+			db.close();
+			return true;
+		} catch (SQLiteException e){
+			db.close();
+			return false;
+		}
+	}
 
 	public boolean removeAll() {
 		SQLiteDatabase db = getWritableDatabase();
