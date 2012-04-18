@@ -110,7 +110,7 @@ public class LatestMenuActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()){
     		case R.id.menuItemRefresh:
-				new Reader();
+				new Reader(persistance);
     			//touch_refresh();
     			return true;
     		case R.id.menuItemAdd:

@@ -39,26 +39,36 @@ public class Reader{
 	private void gatherPublisherFeeds() throws IOException, FeedException, FetcherException {
 		ArrayList<String> publishers = persistance.getPublishers();
 		for(int i = 0; i < publishers.size(); i++){
-			ArrayList<String> extractedContent = readFeed(publishers.get(i));
-			String pubName = extractedContent.get(0);
-			String title   = extractedContent.get(1);
-			String date    = extractedContent.get(2);
-			String url     = extractedContent.get(3);
-			String content = extractedContent.get(4);
-			int hasRead    = 0;
-			persistance.addFeed(pubName, title, date, url, content, hasRead);
+			readFeed(publishers.get(i));
 		}
 	}
 	
-	private ArrayList readFeed(String pubName) throws IOException, FeedException, FetcherException{
-		ArrayList extractedContent = new ArrayList();
-		SyndFeed feed = read("http://planetjs.tumblr.com/rss");
-		Log.d("SIZE OF FEED", feed.getFeedType());
-		List e = feed.getEntries();
-		SyndEntry item = (SyndEntry) e.get(0);
-		String title = item.getTitle();
-		Log.d("First title is!!", title);
-		return extractedContent;
+	private void readFeed(String publisher) throws IOException, FeedException, FetcherException{
+		String url = persistance.getPublisherUrl(publisher);
+		Log.d("Attempting: ", url);
+		SyndFeed feed = read(url);
+		Log.d("Encountered feed of type: ", feed.getFeedType());
+		List entries = feed.getEntries();
+		for(int i = 0; i < entries.size(); i++){
+			SyndEntry item = (SyndEntry) entries.get(i);	
+			storeFeed(
+					publisher,
+					item.getTitle(),
+					item.getPublishedDate().toString(),
+					item.getUri(),
+					"I don't know how to grab contents"
+					//item.getContents()
+			);
+		}
+	}
+	
+	private void storeFeed(String pubName, String title, String date, String url, String content){
+		// Store only if not present
+		Boolean exists = persistance.feedExists(pubName, title, date);
+		if(!exists){
+			int hasRead = 0;
+			persistance.addFeed(pubName, title, date, url, content, hasRead);
+		}
 	}
 	
 	private SyndFeed read(String url) throws IOException, FeedException, FetcherException {
