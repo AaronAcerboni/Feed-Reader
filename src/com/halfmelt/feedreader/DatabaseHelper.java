@@ -9,6 +9,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -72,10 +73,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			c.moveToNext();
 			i++;
 		}
-		
+		db.close();
 		return publishers;
 	}
 	
+	public String getPublisherUrl(String pubName) {
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor c = db.rawQuery("SELECT url From publishers WHERE pubName=" + escape(pubName), null);
+		c.moveToFirst();
+		db.close();
+		return c.getString(0);
+	}
+
 	public HashMap<String, Object> getFeeds(String pubName) {
 		return getFeeds(pubName, "date");
 	}
@@ -83,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public HashMap<String, Object> getFeeds(String pubName, String by) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "'" +
+		String sql = "SELECT * FROM feeds WHERE pubName = " + escape(pubName) +
 					 "ORDER BY date";
 		
 		Cursor c = db.rawQuery(sql, null);
@@ -98,8 +108,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public HashMap getFeeds(String pubName, String by, int upto) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "' ORDER BY '" +
-					 by + "' LIMIT 0," + upto;
+		String sql = "SELECT * FROM feeds WHERE pubName = " + escape(pubName) + " ORDER BY " +
+					 escape(by) + " LIMIT 0," + upto;
 
 		Cursor c = db.rawQuery(sql, null);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -113,11 +123,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public Cursor getFeed(String pubName, String date, String title) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String sql = "SELECT * FROM feeds WHERE pubName = '" + pubName + "'" +
-										      "AND date = '" + date + "'" +
-										      "AND title = '" + title + "'";
-		
+		String sql = "SELECT * FROM feeds WHERE pubName = " + escape(pubName) +
+										      "AND date = " + escape(date) +
+										      "AND title = " + escape(title);
+		db.close();		
 		return db.rawQuery(sql, null);
+	}
+	
+	public Boolean feedExists(String pubName, String date, String title){
+		SQLiteDatabase db = getReadableDatabase();
+		
+		String sql = "SELECT 1 FROM feeds WHERE pubName=" + escape(pubName) +
+										" AND date=" + escape(date) +
+										" AND title=" + escape(title);
+		Cursor c = db.rawQuery(sql, null);
+		
+		return (c.getCount() > 0);
 	}
 	
 	// Database setters
@@ -126,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public boolean addPublisher(String pubName, String pubUrl) {
 		SQLiteDatabase db = getWritableDatabase();
 		try{
-			db.execSQL("INSERT INTO publishers VALUES ('" + pubName + "', '" + pubUrl + "')");
+			db.execSQL("INSERT INTO publishers VALUES (" + escape(pubName) + ", " + escape(pubUrl) + ")");
 			db.close();
 			return true;
 		} catch (SQLiteException e){
@@ -138,8 +159,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public boolean removePublisher(String pubName) {
 		SQLiteDatabase db = getWritableDatabase();
 		try{
-			db.execSQL("DELETE FROM publishers WHERE pubName='" + pubName +"'");
-			db.execSQL("DELETE FROM feeds WHERE pubName='" + pubName +"'");
+			db.execSQL("DELETE FROM publishers WHERE pubName=" + escape(pubName));
+			db.execSQL("DELETE FROM feeds WHERE pubName=" + escape(pubName));
 			db.close();
 			return true;
 		} catch (SQLiteException e){
@@ -152,12 +173,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		SQLiteDatabase db = getWritableDatabase();
 		try{
 			String sql = "INSERT INTO feeds VALUES(" +
-						 "'" + pubName + "', " + 
-						 "'" + title + "', " + 
-						 "'" + date + "', " + 
-						 "'" + url + "', " + 
-						 "'" + content + "', " + 
-						 "'" + hasRead + "')";
+						 escape(pubName) + ", " + 
+						 escape(title) + ", " + 
+						 escape(date) + ", " + 
+						 escape(url) + ", " + 
+						 escape(content) + ", " + 
+						 hasRead + ")";
+
 			db.execSQL(sql);
 			db.close();
 			return true;
@@ -246,5 +268,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		Date date = new Date(milli);
 		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
 		return formatter.format(date);
+	}
+	
+	// Utility
+	
+	private String escape(String escapee){
+		return DatabaseUtils.sqlEscapeString(escapee);
 	}
 }
