@@ -2,6 +2,7 @@ package com.halfmelt.feedreader;
 
 import android.util.Log;
 
+import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndContentImpl;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndEntry;
 import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
 import com.google.code.rome.android.repackaged.com.sun.syndication.fetcher.FeedFetcher;
@@ -56,8 +57,7 @@ public class Reader{
 					item.getTitle(),
 					item.getPublishedDate().toString(),
 					item.getUri(),
-					"I don't know how to grab contents"
-					//item.getContents()
+					item.getDescription().getValue()
 			);
 		}
 	}

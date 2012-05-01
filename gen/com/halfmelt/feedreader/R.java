@@ -11,24 +11,29 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int icon=0x7f020000;
+        public static final int arrow=0x7f020000;
+        public static final int folder=0x7f020001;
+        public static final int icon=0x7f020002;
+        public static final int rss=0x7f020003;
     }
     public static final class id {
         public static final int addPubButton=0x7f070002;
-        public static final int checkBox1=0x7f070008;
+        public static final int article=0x7f070003;
+        public static final int checkBox1=0x7f07000a;
         public static final int date=0x7f070005;
-        public static final int main=0x7f070006;
-        public static final int menuItemAdd=0x7f07000b;
-        public static final int menuItemCancel=0x7f070009;
-        public static final int menuItemEdit=0x7f07000c;
-        public static final int menuItemRefresh=0x7f07000d;
-        public static final int menuItemRemove=0x7f07000a;
-        public static final int menuItemSettings=0x7f07000e;
-        public static final int newAmount=0x7f070007;
+        public static final int main=0x7f070008;
+        public static final int menuItemAdd=0x7f07000d;
+        public static final int menuItemCancel=0x7f07000b;
+        public static final int menuItemEdit=0x7f07000e;
+        public static final int menuItemRefresh=0x7f07000f;
+        public static final int menuItemRemove=0x7f07000c;
+        public static final int menuItemSettings=0x7f070010;
+        public static final int newAmount=0x7f070009;
         public static final int pubName=0x7f070001;
         public static final int pubUrl=0x7f070000;
-        public static final int title=0x7f070003;
-        public static final int webview=0x7f070004;
+        public static final int title=0x7f070004;
+        public static final int url=0x7f070006;
+        public static final int webview=0x7f070007;
     }
     public static final class layout {
         public static final int addpublisher=0x7f030000;
@@ -36,9 +41,10 @@ public final class R {
         public static final int feeditem=0x7f030002;
         public static final int feeds=0x7f030003;
         public static final int latest=0x7f030004;
-        public static final int seeall=0x7f030005;
-        public static final int subheading=0x7f030006;
-        public static final int test=0x7f030007;
+        public static final int nofeeditem=0x7f030005;
+        public static final int seeall=0x7f030006;
+        public static final int subheading=0x7f030007;
+        public static final int test=0x7f030008;
     }
     public static final class menu {
         public static final int edit_publishers_menu=0x7f060000;
@@ -59,6 +65,10 @@ public final class R {
         public static final int item_clear_description=0x7f050006;
         public static final int item_clear_toast=0x7f050007;
         public static final int no_checked_publishers_toast=0x7f050014;
+        /**  Feeds View 
+ Article View 
+         */
+        public static final int no_feed_items=0x7f050017;
         public static final int no_publishers_found_label=0x7f050013;
         /**  Preferences View 
          */
@@ -68,12 +78,10 @@ public final class R {
         public static final int remove_publisher_warning=0x7f050012;
         public static final int remove_publishers_dialog=0x7f050016;
         public static final int removed_publishers_toast=0x7f050015;
-        /**  Feeds View 
- Article View 
- item view item 
+        /**  item view item 
  seeall view item 
          */
-        public static final int seemore_label=0x7f050017;
+        public static final int seemore_label=0x7f050018;
         public static final int set_publisher_button=0x7f050011;
         public static final int set_publisher_name_hint=0x7f05000f;
         public static final int set_publisher_name_label=0x7f05000e;

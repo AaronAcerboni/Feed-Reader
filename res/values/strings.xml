@@ -14,7 +14,10 @@
     <string name="item_clear_toast">Cache cleared</string>
     <string name="item_about">About</string>
     <string name="item_about_description">Details about version and author</string>
-    <string name="item_about_content">Version 0.1 - Made by Aaron Acerboni as a University of Brighton project</string>
+    <string name="item_about_content">
+        Version 0.1 - Made by Aaron Acerboni as a University of Brighton project.  
+        Icons by P.J. Onori.
+    </string>
     
 	<!-- Add Publisher View -->
     <string name="set_publisher_url_label">Publisher URL</string>
@@ -34,7 +37,7 @@
 	<!-- Feeds View -->
     
 	<!-- Article View -->
-	
+	<string name="no_feed_items">This publisher has no gathered feed items</string>
 		<!-- item view item -->
 		
 		<!-- seeall view item -->

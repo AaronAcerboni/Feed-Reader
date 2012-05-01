@@ -10,26 +10,28 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class LatestMenuActivity extends Activity {
+public class LatestMenuActivity extends Activity implements OnClickListener{
 	
 	private DatabaseHelper persistance;
+	private ArrayList<Feed> feedsCollection;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         persistance = new DatabaseHelper(this, getResources().getString(R.string.app_name));
         if(persistance.firstRun){
-        	
-        } else {
-
+        	// Display welcome or introductory message
         }
         super.onCreate(savedInstanceState);
     }
@@ -41,12 +43,14 @@ public class LatestMenuActivity extends Activity {
     }
 
     public void onResume() {
+        setContentView(R.layout.latest);
         buildContentView();
         super.onResume();
     }
     
     // Build the view based on feed items
     private void buildContentView() {
+    	feedsCollection = new ArrayList<Feed>();
     	LinearLayout ll = (LinearLayout) findViewById(R.id.main);
     	
     	// Remove any previous drawn views
@@ -67,7 +71,6 @@ public class LatestMenuActivity extends Activity {
     		TextView unread = (TextView) heading.findViewById(R.id.newAmount);
 
     		title.setText(publishers.get(i));
-    		unread.setText("50");
         	ll.addView(heading);
         	
         	// Draw publisher feeds
@@ -77,27 +80,70 @@ public class LatestMenuActivity extends Activity {
         	feeds.moveToFirst();
         	
         	int n = 0;
+        	int unreadAmt = 0;
         	while(n < feeds.getCount()){
-        		String feedTitle = feeds.getString(feeds.getColumnIndex("title"));
-        		String feedDate = feeds.getString(feeds.getColumnIndex("date"));
-        		int feedHasRead = feeds.getInt(feeds.getColumnIndex("hasRead"));
+        		// Create Feed object with a correlating index to the view item.
+        		// This means when the onClickListener is handled the view item id will match the 
+        		// appropriate feed object.
+        		Feed feed = new Feed();
+        		feed.title = feeds.getString(feeds.getColumnIndex("title"));
+        		feed.date = feeds.getString(feeds.getColumnIndex("date"));
+        		feed.url = feeds.getString(feeds.getColumnIndex("url"));
+        		feed.content = feeds.getString(feeds.getColumnIndex("content"));
+        		feed.hasRead = feeds.getInt(feeds.getColumnIndex("hasRead"));
         		
+        		feedsCollection.add(feed);
+        		
+        		// Display view item
         		View feedHeading = inflater.inflate(R.layout.feeditem, null);
-        		((TextView)feedHeading.findViewById(R.id.title)).setText(feedTitle);
-        		((TextView)feedHeading.findViewById(R.id.date)).setText(feedDate);
-        		if(feedHasRead == 0){
+        		((TextView)feedHeading.findViewById(R.id.title)).setText(feed.title);
+        		((TextView)feedHeading.findViewById(R.id.date)).setText(feed.date);
+        		
+        		if(feed.hasRead == 0){
             		((TextView)feedHeading.findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
+            		unreadAmt++;
         		}
-        		Log.d("here", feedTitle);
+        		
         		ll.addView(feedHeading);
+        		ll.setId(n);
+        		
+        		// Assign view item listener
+        		 ll.setOnClickListener(this);
+        		
+        		// Iteration logic
         		feeds.moveToNext();
         		n++;
-        	}
-
-        	persistance.close((SQLiteDatabase) map.get("connection"));
+        	} // end feed item loop
         	
+
+        	
+        	// Set how many are unread
+        	if(unreadAmt > 0){
+        		unread.setText("(" + unreadAmt + ")");
+        	}
+        	
+        	// If no feeds fetched then display lack of feeds
+        	if(feeds.getCount() == 0){
+        		View noFeed = inflater.inflate(R.layout.nofeeditem, null);
+        		ll.addView(noFeed);
+        	}
+        	
+        	persistance.close((SQLiteDatabase) map.get("connection"));
     	} // end publisher loop
+
     }
+    
+    
+    // Click for a feed item
+    public void onClick(View v) {
+		Feed feed = (Feed) feedsCollection.get(v.getId());
+		Intent intent = new Intent(this, com.halfmelt.feedreader.ArticleActivity.class);
+		intent.putExtra("title", feed.title);
+		intent.putExtra("date", feed.date);
+		intent.putExtra("url", feed.url);
+		intent.putExtra("content", feed.content);
+		startActivity(intent);
+	}
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,7 +157,7 @@ public class LatestMenuActivity extends Activity {
     	switch(item.getItemId()){
     		case R.id.menuItemRefresh:
 				new Reader(persistance);
-    			//touch_refresh();
+    			touch_refresh();
     			return true;
     		case R.id.menuItemAdd:
     			touch_addPublisher();
@@ -143,21 +189,21 @@ public class LatestMenuActivity extends Activity {
 	}
 	
     private void touch_refresh(){
-		final Activity gui = this;
-		new Thread(new Runnable() {
-			public void run() {
-				final String feed = FeedGetter.get("planetjs.tumblr.com/rss");
-				Log.d("blah", feed);
-				if(!persistance.populateDummyData()){
-					Log.d("Warning!!!!!!", "That pubName was already set in the database!");
-				}
-				gui.runOnUiThread(new Runnable(){
-					public void run(){
-						buildContentView();
-					}
-				});
-			}
-		}).start(); 
+		// Runs gathering of feeds asynchronously
+    	
+    	final Handler mHandler = new Handler(){
+    	    public void handleMessage(Message msg){   
+    	        buildContentView();
+    	    }
+    	};
+    	 
+    	new Thread(new Runnable(){
+    		public void run(){
+    			// Refresh database with possibly new feeds
+    			new Reader(persistance);
+    			mHandler.sendEmptyMessage(0);
+    	    }
+    	}).start();
     }
     
 }

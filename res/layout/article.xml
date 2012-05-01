@@ -3,21 +3,29 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:background="#FFFFFF"
+  android:id="@+id/article">
     
-    <!-- heading span -->
-    <LinearLayout
-	  xmlns:android="http://schemas.android.com/apk/res/android"
-	  android:orientation="horizontal"
-	  android:layout_width="match_parent"
-	  android:layout_height="match_parent">
-	  
 	  <!-- Article title -->
 	  <TextView  
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 
 	    android:id="@+id/title"
 	    android:text="title not set"
+	    />
+	  <TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/date"
+	    android:text="date not set"
+	    />
+	  <TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/url"
+	    android:text="url not set"
+	    android:textColor="#0000FF"
 	    />
 	    
 	  <!-- Home button -->
@@ -26,10 +34,12 @@
 	  <!-- Up dir button -->
 	  <!-- need "IconView -->
 	  
-	</LinearLayout>
-	  
     
     <!-- h1 for title, url link to page, date and content -->
-    <WebView android:id="@+id/webview"/>
+    <WebView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/webview"
+    />
     
 </LinearLayout>

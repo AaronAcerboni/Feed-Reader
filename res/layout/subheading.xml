@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-	>
-		<TextView  
-		    android:layout_width="wrap_content" 
-		    android:layout_height="wrap_content" 
-		    android:id="@+id/title"
-		    android:text="title must be set programmatically"
-		    />
-	    
-	    <TextView  
-		    android:layout_width="wrap_content" 
-		    android:layout_height="wrap_content" 
-		    android:id="@+id/newAmount"
-		    android:text="newAmount must be set programmatically"
-		    />
-	    
-	    <TextView  
-		    android:layout_width="wrap_content" 
-		    android:layout_height="wrap_content" 
-		    android:id="@+id/date"
-		    android:text="date must be set programmatically"
-		    />
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"    
+    android:background="#4093FF">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp" >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.48"
+            android:text="title must be set programmatically"
+            android:textColor="#FFFFFF" />
+        <TextView
+            android:id="@+id/newAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.09"
+            android:textColor="#FFFFFF" />
+   	 </LinearLayout>
 			    
 	</LinearLayout>

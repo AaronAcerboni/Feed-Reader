@@ -201,6 +201,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			return false;
 		}
 	}
+	
+	// sql might be incorrect
+	public boolean feedAsRead(String title, String date, String url) {
+		SQLiteDatabase db = getWritableDatabase();
+		try{
+			String sql = "UPDATE feed SET hasRead=1 WHERE " +
+						 "title='" + title + "' AND " + 
+						 "date='" + date + "' AND" +
+						 "url='" + url + "'";
+			db.execSQL(sql);
+			db.close();
+			return true;
+		} catch (SQLiteException e) {
+			db.close();
+			return false;
+		}
+	}
 
 	public boolean removeAllFeeds() {
 		SQLiteDatabase db = getWritableDatabase();
