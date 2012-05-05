@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,15 +18,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class LatestMenuActivity extends Activity implements OnClickListener{
+public class LatestMenuActivity extends Activity implements OnClickListener, OnTouchListener {
 	
 	private DatabaseHelper persistance;
-	private ArrayList<Feed> feedsCollection;
+	private ArrayList pubCollection;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,8 @@ public class LatestMenuActivity extends Activity implements OnClickListener{
     
     // Build the view based on feed items
     private void buildContentView() {
-    	feedsCollection = new ArrayList<Feed>();
+    	pubCollection = new ArrayList();
+    	
     	LinearLayout ll = (LinearLayout) findViewById(R.id.main);
     	
     	// Remove any previous drawn views
@@ -58,11 +62,13 @@ public class LatestMenuActivity extends Activity implements OnClickListener{
     	
     	// Draw views
     	
-		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	
     	ArrayList<String> publishers = persistance.getPublishers();
  
     	for(int i = 0; i < publishers.size(); i++){
+    		
+        	ArrayList feedCollection = new ArrayList();
     		
     		// Draw publisher
     		
@@ -92,9 +98,9 @@ public class LatestMenuActivity extends Activity implements OnClickListener{
         		feed.content = feeds.getString(feeds.getColumnIndex("content"));
         		feed.hasRead = feeds.getInt(feeds.getColumnIndex("hasRead"));
         		
-        		feedsCollection.add(feed);
+        		feedCollection.add(feed);
         		
-        		// Display view item
+        		// Draw view item
         		View feedHeading = inflater.inflate(R.layout.feeditem, null);
         		((TextView)feedHeading.findViewById(R.id.title)).setText(feed.title);
         		((TextView)feedHeading.findViewById(R.id.date)).setText(feed.date);
@@ -105,44 +111,95 @@ public class LatestMenuActivity extends Activity implements OnClickListener{
         		}
         		
         		ll.addView(feedHeading);
-        		ll.setId(n);
         		
-        		// Assign view item listener
-        		 ll.setOnClickListener(this);
+        		// Mapping to the associative publisher in pubCollection
+        		feedHeading.setId(i);
+        		// Mapping to the associative feed feedCollection within pubCollection
+        		feedHeading.setTag(n);
+        		
+        		// Assign view item listeners
+        		feedHeading.setOnClickListener(this);
+        		feedHeading.setOnTouchListener(this);
         		
         		// Iteration logic
         		feeds.moveToNext();
         		n++;
         	} // end feed item loop
         	
-
         	
         	// Set how many are unread
         	if(unreadAmt > 0){
-        		unread.setText("(" + unreadAmt + ")");
+        		unread.setText(unreadAmt + " unread");
         	}
         	
         	// If no feeds fetched then display lack of feeds
         	if(feeds.getCount() == 0){
         		View noFeed = inflater.inflate(R.layout.nofeeditem, null);
         		ll.addView(noFeed);
+        	} else {
+            	// Add a "see all" view item
+            	View seeAll = inflater.inflate(R.layout.seeall, null);
+            	((TextView) seeAll.findViewById(R.id.title)).setText("See all items");
+            	seeAll.setOnClickListener(this);
+            	seeAll.setOnTouchListener(this);
+            	seeAll.setTag(publishers.get(i));
+            	ll.addView(seeAll);
         	}
-        	
-        	persistance.close((SQLiteDatabase) map.get("connection"));
-    	} // end publisher loop
 
+        	pubCollection.add(feedCollection);
+        	
+        	try {
+            	persistance.close((SQLiteDatabase) map.get("connection"));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+    	} // end publisher loop
+    	
+    	// If no publishers then display add publisher message
+    	if(publishers.size() == 0){
+        	View noneAdded = inflater.inflate(R.layout.nopublishers, null);
+        	ll.addView(noneAdded);
+    	}
+    	
     }
     
     
     // Click for a feed item
-    public void onClick(View v) {
-		Feed feed = (Feed) feedsCollection.get(v.getId());
-		Intent intent = new Intent(this, com.halfmelt.feedreader.ArticleActivity.class);
-		intent.putExtra("title", feed.title);
-		intent.putExtra("date", feed.date);
-		intent.putExtra("url", feed.url);
-		intent.putExtra("content", feed.content);
-		startActivity(intent);
+    public void onClick(View v) {    	
+    	if((String) ((TextView) v.findViewById(R.id.title)).getText() == "See all items"){
+    		// See more from publisher view
+    		
+    		Intent intent = new Intent(this, com.halfmelt.feedreader.PublisherActivity.class);
+    		intent.putExtra("publisher", (String) v.getTag());
+    		startActivity(intent);
+    	} else {
+    		// Specific feed item view
+    		
+        	ArrayList feeds = (ArrayList) pubCollection.get(v.getId());
+    		Feed feed = (Feed) feeds.get((Integer) v.getTag());
+
+    		Intent intent = new Intent(this, com.halfmelt.feedreader.ArticleActivity.class);
+    		intent.putExtra("title", feed.title);
+    		intent.putExtra("date", feed.date);
+    		intent.putExtra("url", feed.url);
+    		intent.putExtra("content", feed.content);
+    		startActivity(intent);
+    	}
+	}
+    
+    // Touch for a feed item
+	public boolean onTouch(View v, MotionEvent event) {
+		if(event.getAction() == MotionEvent.ACTION_DOWN){
+			v.setBackgroundColor(0xFFFF6A00);
+			((TextView) v.findViewById(R.id.title)).setTextColor(Color.WHITE);
+			((TextView) v.findViewById(R.id.date)).setTextColor(Color.WHITE);
+		}
+		if(event.getAction() == MotionEvent.ACTION_CANCEL){
+			v.setBackgroundColor(0xFFFFFFFF);
+			((TextView) v.findViewById(R.id.title)).setTextColor(Color.LTGRAY);
+			((TextView) v.findViewById(R.id.date)).setTextColor(Color.LTGRAY);
+		}
+		return false;
 	}
     
     @Override
@@ -199,9 +256,10 @@ public class LatestMenuActivity extends Activity implements OnClickListener{
     	 
     	new Thread(new Runnable(){
     		public void run(){
-    			// Refresh database with possibly new feeds
-    			new Reader(persistance);
     			mHandler.sendEmptyMessage(0);
+    			// Refresh database with possibly new feeds
+    			// Horribly blocking !
+    			new Reader(persistance);
     	    }
     	}).start();
     }

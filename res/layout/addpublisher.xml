@@ -8,11 +8,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_publisher_url_label"
+		android:textSize="17sp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+		android:textSize="17sp"
         android:text="@string/info_publisher_url_label" />
     <EditText
         android:id="@+id/pubUrl"
@@ -23,11 +25,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+		android:textSize="17sp"
         android:text="@string/set_publisher_name_label"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:layout_width="wrap_content"
+		android:textSize="17sp"
         android:layout_height="wrap_content"
         android:text="@string/info_publisher_name_label" />
 

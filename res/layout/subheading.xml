@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.48"
+			android:textSize="17sp"
             android:text="title must be set programmatically"
             android:textColor="#FFFFFF" />
         <TextView
@@ -22,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.09"
+			android:textSize="17sp"
             android:textColor="#FFFFFF" />
    	 </LinearLayout>
 			    

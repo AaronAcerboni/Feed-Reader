@@ -19,21 +19,22 @@ public final class R {
     public static final class id {
         public static final int addPubButton=0x7f070002;
         public static final int article=0x7f070003;
-        public static final int checkBox1=0x7f07000a;
-        public static final int date=0x7f070005;
-        public static final int main=0x7f070008;
-        public static final int menuItemAdd=0x7f07000d;
-        public static final int menuItemCancel=0x7f07000b;
-        public static final int menuItemEdit=0x7f07000e;
-        public static final int menuItemRefresh=0x7f07000f;
-        public static final int menuItemRemove=0x7f07000c;
-        public static final int menuItemSettings=0x7f070010;
-        public static final int newAmount=0x7f070009;
+        public static final int checkBox1=0x7f07000b;
+        public static final int date=0x7f070006;
+        public static final int latest=0x7f070009;
+        public static final int main=0x7f070007;
+        public static final int menuItemAdd=0x7f07000e;
+        public static final int menuItemCancel=0x7f07000c;
+        public static final int menuItemEdit=0x7f07000f;
+        public static final int menuItemRefresh=0x7f070010;
+        public static final int menuItemRemove=0x7f07000d;
+        public static final int menuItemSettings=0x7f070011;
+        public static final int newAmount=0x7f07000a;
         public static final int pubName=0x7f070001;
         public static final int pubUrl=0x7f070000;
-        public static final int title=0x7f070004;
-        public static final int url=0x7f070006;
-        public static final int webview=0x7f070007;
+        public static final int publisher_title=0x7f070008;
+        public static final int title=0x7f070005;
+        public static final int webview=0x7f070004;
     }
     public static final class layout {
         public static final int addpublisher=0x7f030000;
@@ -42,9 +43,10 @@ public final class R {
         public static final int feeds=0x7f030003;
         public static final int latest=0x7f030004;
         public static final int nofeeditem=0x7f030005;
-        public static final int seeall=0x7f030006;
-        public static final int subheading=0x7f030007;
-        public static final int test=0x7f030008;
+        public static final int nopublishers=0x7f030006;
+        public static final int seeall=0x7f030007;
+        public static final int subheading=0x7f030008;
+        public static final int test=0x7f030009;
     }
     public static final class menu {
         public static final int edit_publishers_menu=0x7f060000;
@@ -55,40 +57,48 @@ public final class R {
          */
         public static final int app_name=0x7f050000;
         public static final int confirm=0x7f050002;
-        public static final int deny=0x7f050003;
-        public static final int info_publisher_name_label=0x7f050010;
-        public static final int info_publisher_url_label=0x7f05000d;
-        public static final int item_about=0x7f050008;
-        public static final int item_about_content=0x7f05000a;
-        public static final int item_about_description=0x7f050009;
-        public static final int item_clear=0x7f050005;
-        public static final int item_clear_description=0x7f050006;
-        public static final int item_clear_toast=0x7f050007;
-        public static final int no_checked_publishers_toast=0x7f050014;
-        /**  Feeds View 
- Article View 
+        public static final int contentDesc_arrow=0x7f050007;
+        /**   image content descriptions 
          */
-        public static final int no_feed_items=0x7f050017;
-        public static final int no_publishers_found_label=0x7f050013;
+        public static final int contentDesc_folder=0x7f050005;
+        public static final int contentDesc_rss=0x7f050006;
+        public static final int deny=0x7f050003;
+        /**  Feeds View 
+         */
+        public static final int go_up=0x7f05001b;
+        public static final int info_publisher_name_label=0x7f050014;
+        public static final int info_publisher_url_label=0x7f050011;
+        public static final int item_about=0x7f05000c;
+        public static final int item_about_content=0x7f05000e;
+        public static final int item_about_description=0x7f05000d;
+        public static final int item_clear=0x7f050009;
+        public static final int item_clear_description=0x7f05000a;
+        public static final int item_clear_toast=0x7f05000b;
+        public static final int no_checked_publishers_toast=0x7f050018;
+        /**  Article View 
+         */
+        public static final int no_feed_items=0x7f05001c;
+        public static final int no_publishers=0x7f050004;
+        public static final int no_publishers_found_label=0x7f050017;
         /**  Preferences View 
          */
-        public static final int remove_cache_dialog=0x7f050004;
+        public static final int remove_cache_dialog=0x7f050008;
         /**  Edit Publisher View 
          */
-        public static final int remove_publisher_warning=0x7f050012;
-        public static final int remove_publishers_dialog=0x7f050016;
-        public static final int removed_publishers_toast=0x7f050015;
+        public static final int remove_publisher_warning=0x7f050016;
+        public static final int remove_publishers_dialog=0x7f05001a;
+        public static final int removed_publishers_toast=0x7f050019;
         /**  item view item 
  seeall view item 
          */
-        public static final int seemore_label=0x7f050018;
-        public static final int set_publisher_button=0x7f050011;
-        public static final int set_publisher_name_hint=0x7f05000f;
-        public static final int set_publisher_name_label=0x7f05000e;
-        public static final int set_publisher_url_hint=0x7f05000c;
+        public static final int seemore_label=0x7f05001d;
+        public static final int set_publisher_button=0x7f050015;
+        public static final int set_publisher_name_hint=0x7f050013;
+        public static final int set_publisher_name_label=0x7f050012;
+        public static final int set_publisher_url_hint=0x7f050010;
         /**  Add Publisher View 
          */
-        public static final int set_publisher_url_label=0x7f05000b;
+        public static final int set_publisher_url_label=0x7f05000f;
         public static final int updir_label=0x7f050001;
     }
     public static final class xml {

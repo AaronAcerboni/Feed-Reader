@@ -7,6 +7,13 @@
     <string name="confirm">OK</string>
     <string name="deny">No</string>
     
+	<string name="no_publishers">(Touch Menu → Add publisher) to start adding some feed publishers</string>
+	
+    <!--  image content descriptions -->
+    <string name="contentDesc_folder">A folder signifying a file directory</string>
+    <string name="contentDesc_rss">An icon signifying the RSS standard</string>
+    <string name="contentDesc_arrow">Right arrow</string>
+    
 	<!-- Preferences View -->
     <string name="remove_cache_dialog">Are you sure you want to remove all feed items?</string>
     <string name="item_clear">Clear cache</string>
@@ -14,9 +21,10 @@
     <string name="item_clear_toast">Cache cleared</string>
     <string name="item_about">About</string>
     <string name="item_about_description">Details about version and author</string>
-    <string name="item_about_content">
-        Version 0.1 - Made by Aaron Acerboni as a University of Brighton project.  
-        Icons by P.J. Onori.
+    <string name="item_about_content">Aaron Acerboni  \n
+        University of Birghton  \n
+        Version 0.1  \n
+        Icons by P.J. Onori  \n
     </string>
     
 	<!-- Add Publisher View -->
@@ -34,10 +42,12 @@
     <string name="no_checked_publishers_toast">You didn\'t check any publishers.</string>
     <string name="removed_publishers_toast">Removed.</string>    
     <string name="remove_publishers_dialog">Are you sure you want to remove checked publishers?</string>    
+	
 	<!-- Feeds View -->
+	<string name="go_up">../</string>
     
 	<!-- Article View -->
-	<string name="no_feed_items">This publisher has no gathered feed items</string>
+	<string name="no_feed_items">Touch Menu → Refresh to get some entries</string>
 		<!-- item view item -->
 		
 		<!-- seeall view item -->

@@ -8,25 +8,6 @@
   android:id="@+id/article">
     
 	  <!-- Article title -->
-	  <TextView  
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:id="@+id/title"
-	    android:text="title not set"
-	    />
-	  <TextView  
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:id="@+id/date"
-	    android:text="date not set"
-	    />
-	  <TextView  
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:id="@+id/url"
-	    android:text="url not set"
-	    android:textColor="#0000FF"
-	    />
 	    
 	  <!-- Home button -->
 	  <!-- need "IconView -->

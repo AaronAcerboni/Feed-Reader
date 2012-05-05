@@ -55,7 +55,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	}
 	
 	public void close(SQLiteDatabase db) {
-		db.close();
+		try {
+			db.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	
 	// Database getters
@@ -206,10 +210,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public boolean feedAsRead(String title, String date, String url) {
 		SQLiteDatabase db = getWritableDatabase();
 		try{
-			String sql = "UPDATE feed SET hasRead=1 WHERE " +
-						 "title='" + title + "' AND " + 
-						 "date='" + date + "' AND" +
-						 "url='" + url + "'";
+			String sql = "UPDATE feeds SET hasRead=1 WHERE " +
+						 "title=" + escape(title) + " AND " + 
+						 "date=" + escape(date) + " AND " +
+						 "url=" + escape(url);
 			db.execSQL(sql);
 			db.close();
 			return true;

@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry exported="true" kind="lib" path="H:/YEAR 3 LEVEL 6/eclipse workspace/Feed-Reader/libs/android-rome-feed-reader-1.0.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="H:/YEAR 3 LEVEL 6/eclipse workspace/Feed-Reader/libs/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/eWorkspace/Feed-Reader/libs/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/eWorkspace/Feed-Reader/libs/android-rome-feed-reader-1.0.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

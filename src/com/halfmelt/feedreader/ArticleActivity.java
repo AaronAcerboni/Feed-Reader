@@ -24,11 +24,11 @@ public class ArticleActivity extends Activity implements OnClickListener{
     
     @Override
     public void onStart() {
-        setContentView(R.layout.article);
         Bundle info = getIntent().getExtras();
-        
-        buildContentView(info);      
+        setContentView(R.layout.article);
+        // Mark view as read
         persistance.feedAsRead(info.getString("title"), info.getString("date"), info.getString("url"));
+        buildContentView(info);      
     	super.onStart();
     }
     
@@ -37,15 +37,11 @@ public class ArticleActivity extends Activity implements OnClickListener{
     	String url = extras.getString("url");
     	String date = extras.getString("date");
     	String content = extras.getString("content");
+    	
+    	content = "<h1>" + title + "</h1>" + "<p>" + date + "</p><p><a href='" + url + "'>" + url + "</a></p>" + content;
 
     	LinearLayout ll = (LinearLayout) findViewById(R.id.article);
-    	((TextView) ll.findViewById(R.id.title)).setText(title);
-    	((TextView) ll.findViewById(R.id.date)).setText(date);
-    	((TextView) ll.findViewById(R.id.url)).setText(url);
     	((WebView) ll.findViewById(R.id.webview)).loadDataWithBaseURL("", content, "text/html", Encoding.UTF_8.toString(), "");
-    	
-    	// add url intent
-    	((TextView) ll.findViewById(R.id.url)).setOnClickListener(this);
     }
 
     public void onClick(View v){
