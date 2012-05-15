@@ -192,7 +192,10 @@ public class LatestMenuActivity extends Activity implements OnClickListener, OnT
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 			v.setBackgroundColor(0xFFFF6A00);
 			((TextView) v.findViewById(R.id.title)).setTextColor(Color.WHITE);
-			((TextView) v.findViewById(R.id.date)).setTextColor(Color.WHITE);
+			try{
+				// Not all touched views have date
+				((TextView) v.findViewById(R.id.date)).setTextColor(Color.WHITE);
+			} catch (Exception e) {}
 		}
 		if(event.getAction() == MotionEvent.ACTION_CANCEL){
 			v.setBackgroundColor(0xFFFFFFFF);
@@ -213,7 +216,6 @@ public class LatestMenuActivity extends Activity implements OnClickListener, OnT
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()){
     		case R.id.menuItemRefresh:
-				new Reader(persistance);
     			touch_refresh();
     			return true;
     		case R.id.menuItemAdd:
@@ -256,10 +258,8 @@ public class LatestMenuActivity extends Activity implements OnClickListener, OnT
     	 
     	new Thread(new Runnable(){
     		public void run(){
-    			mHandler.sendEmptyMessage(0);
-    			// Refresh database with possibly new feeds
-    			// Horribly blocking !
     			new Reader(persistance);
+    			mHandler.sendEmptyMessage(0);
     	    }
     	}).start();
     }

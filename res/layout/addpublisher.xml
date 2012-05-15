@@ -2,37 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#FFFFFF">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_publisher_url_label"
-		android:textSize="17sp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:textSize="17sp"
-        android:text="@string/info_publisher_url_label" />
-    <EditText
-        android:id="@+id/pubUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/set_publisher_url_hint" />
+		android:textSize="17sp"
+		android:textColor="#FFFFFF"
+		android:background="#4093FF"
+        android:padding="8dp"
+        android:text="@string/set_publisher_name_label" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:textSize="17sp"
-        android:text="@string/set_publisher_name_label"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-		android:textSize="17sp"
-        android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/info_publisher_name_label" />
 
     <EditText
@@ -40,6 +26,28 @@
         android:hint="@string/set_publisher_name_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:textColor="#FFFFFF"
+		android:background="#4093FF"
+        android:padding="8dp"
+        android:text="@string/set_publisher_url_label"
+		android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textSize="17sp"
+        android:padding="8dp"
+        android:text="@string/info_publisher_url_label" />
+
+    <EditText
+        android:id="@+id/pubUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/set_publisher_url_hint" />
 
     <Button
         android:id="@+id/addPubButton"

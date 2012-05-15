@@ -3,7 +3,7 @@
 	  android:orientation="horizontal"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
-	  android:background="#FFFFFF"
+	  android:background="@drawable/whitegradient"
 	  android:paddingTop="10sp"
       android:paddingBottom="10sp"
 	  >
@@ -14,13 +14,13 @@
         android:layout_gravity="center_vertical"
         android:src="@drawable/folder"
         android:contentDescription="@string/contentDesc_folder"
-        android:padding="10dp" />   
+        android:paddingRight="10dp" 
+        android:paddingLeft="10dp" />   
           
     <TextView  
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
 	    android:id="@+id/title"
-	    android:text="title not set"
-	    android:textSize="17sp" />
+	    android:text="title not set"/>
  
 </LinearLayout>

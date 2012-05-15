@@ -8,17 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class PublisherActivity extends Activity implements OnClickListener {
+public class PublisherActivity extends Activity implements OnClickListener, OnTouchListener {
 	
 	private DatabaseHelper persistance;
 	private ArrayList<Feed> feedsCollection;
@@ -58,6 +58,7 @@ public class PublisherActivity extends Activity implements OnClickListener {
     		feed.content = feeds.getString(feeds.getColumnIndex("content"));
     		feed.hasRead = feeds.getInt(feeds.getColumnIndex("hasRead"));
 
+    		feedsCollection.add(feed);
     		// Draw view item
     		View feedItem = inflater.inflate(R.layout.feeditem, null);
     		((TextView)feedItem.findViewById(R.id.title)).setText(feed.title);
@@ -65,6 +66,7 @@ public class PublisherActivity extends Activity implements OnClickListener {
     		
     		feedItem.setId(i);
     		feedItem.setOnClickListener(this);
+    		feedItem.setOnTouchListener(this);
     		
     		ll.addView(feedItem);
     		
@@ -106,12 +108,20 @@ public class PublisherActivity extends Activity implements OnClickListener {
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 			v.setBackgroundColor(0xFFFF6A00);
 			((TextView) v.findViewById(R.id.title)).setTextColor(Color.WHITE);
-			((TextView) v.findViewById(R.id.date)).setTextColor(Color.WHITE);
+			try{
+				((TextView) v.findViewById(R.id.date)).setTextColor(Color.WHITE);
+			} catch (Exception e){
+				
+			}
 		}
 		if(event.getAction() == MotionEvent.ACTION_CANCEL){
 			v.setBackgroundColor(0xFFFFFFFF);
 			((TextView) v.findViewById(R.id.title)).setTextColor(Color.LTGRAY);
-			((TextView) v.findViewById(R.id.date)).setTextColor(Color.LTGRAY);
+			try{
+				((TextView) v.findViewById(R.id.date)).setTextColor(Color.LTGRAY);
+			} catch (Exception e){
+				
+			}
 		}
 		return false;
 	}

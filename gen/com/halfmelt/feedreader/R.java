@@ -15,6 +15,7 @@ public final class R {
         public static final int folder=0x7f020001;
         public static final int icon=0x7f020002;
         public static final int rss=0x7f020003;
+        public static final int whitegradient=0x7f020004;
     }
     public static final class id {
         public static final int addPubButton=0x7f070002;
@@ -30,8 +31,8 @@ public final class R {
         public static final int menuItemRemove=0x7f07000d;
         public static final int menuItemSettings=0x7f070011;
         public static final int newAmount=0x7f07000a;
-        public static final int pubName=0x7f070001;
-        public static final int pubUrl=0x7f070000;
+        public static final int pubName=0x7f070000;
+        public static final int pubUrl=0x7f070001;
         public static final int publisher_title=0x7f070008;
         public static final int title=0x7f070005;
         public static final int webview=0x7f070004;

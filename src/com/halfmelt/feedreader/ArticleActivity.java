@@ -38,8 +38,12 @@ public class ArticleActivity extends Activity implements OnClickListener{
     	String date = extras.getString("date");
     	String content = extras.getString("content");
     	
+    	// Concatinate full html string from feed object property
+    	
     	content = "<h1>" + title + "</h1>" + "<p>" + date + "</p><p><a href='" + url + "'>" + url + "</a></p>" + content;
-
+    	
+    	// Inject it into web view
+    	
     	LinearLayout ll = (LinearLayout) findViewById(R.id.article);
     	((WebView) ll.findViewById(R.id.webview)).loadDataWithBaseURL("", content, "text/html", Encoding.UTF_8.toString(), "");
     }

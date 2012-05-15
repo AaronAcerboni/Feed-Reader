@@ -39,13 +39,14 @@ public class EditPublishersActivity extends Activity{
     	// Draw all publisher checkboxes
     	
     	ScrollView sv = new ScrollView(this);
+    	sv.setBackgroundColor(0xffffff);
     	LinearLayout lin = new LinearLayout(this);
     	lin.setOrientation(LinearLayout.VERTICAL);
     	for (int i = 0; i < pubAmt; i++) {
         	CheckBox cb = new CheckBox(this);
         	cb.setId(i+1);
         	cb.setText(pubNames.get(i));
-        	cb.setPadding(46, 4, 4, 4);
+        	cb.setPadding(46, 4, 46, 4);
         	cb.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         	lin.addView(cb);
 		}
